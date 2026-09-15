@@ -1,7 +1,5 @@
 import React from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
-import { FileDown, ArrowUpRight } from 'lucide-react';
-import { trackResumeDownload } from '../utils/analytics';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -14,47 +12,52 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer id="site-footer" className="bg-[#172033] text-white py-12 border-t border-[#172033]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/10">
+    <footer
+      id="site-footer"
+      className="bg-slate-100 dark:bg-[#12141C] text-slate-800 dark:text-[#FAF9F6] py-10 border-t border-slate-200 dark:border-white/10"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-200 dark:border-white/10">
           
           {/* Identity */}
-          <div className="flex items-center gap-3.5">
-            <img
-              src={PERSONAL_INFO.monogramUrl}
-              alt="RS Monogram"
-              width={36}
-              height={36}
-              className="w-9 h-9 rounded-lg bg-white object-contain p-0.5"
-            />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-[#1E2230] border border-slate-200 dark:border-white/15 overflow-hidden flex items-center justify-center shadow-xs">
+              <img
+                src={PERSONAL_INFO.monogramUrl}
+                alt="RS Monogram"
+                width={48}
+                height={48}
+                className="w-full h-full object-contain scale-145"
+              />
+            </div>
             <div>
-              <span className="font-heading text-lg font-semibold tracking-tight text-white block">
+              <span className="font-heading text-base font-bold tracking-tight text-slate-900 dark:text-[#FAF9F6] block">
                 {PERSONAL_INFO.name}
               </span>
-              <span className="text-xs text-white/60">
-                Key Account Management and Customer Success &middot; Dubai, UAE
+              <span className="text-xs text-slate-500 dark:text-[#94A3B8]">
+                Key Account Management & Customer Success &middot; Dubai, UAE
               </span>
             </div>
           </div>
 
           {/* Quick Nav Anchors */}
-          <div className="flex flex-wrap items-center gap-5 text-xs text-white/70">
+          <div className="flex flex-wrap items-center gap-5 text-xs font-semibold text-slate-600 dark:text-[#9CA3AF]">
             <a
               href="#home"
               onClick={handleScrollTop}
-              className="hover:text-white transition-colors"
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
-              Home
+              Overview
             </a>
             <a
-              href="#experience"
+              href="#metrics"
               onClick={(e) => {
                 e.preventDefault();
-                onNavigate('experience');
+                onNavigate('metrics');
               }}
-              className="hover:text-white transition-colors"
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
-              Experience
+              Metrics
             </a>
             <a
               href="#capabilities"
@@ -62,9 +65,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 e.preventDefault();
                 onNavigate('capabilities');
               }}
-              className="hover:text-white transition-colors"
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
               Capabilities
+            </a>
+            <a
+              href="#experience"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('experience');
+              }}
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
+            >
+              Experience
             </a>
             <a
               href="#case-studies"
@@ -72,9 +85,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 e.preventDefault();
                 onNavigate('case-studies');
               }}
-              className="hover:text-white transition-colors"
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
               Case Studies
+            </a>
+            <a
+              href="#feedback"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('feedback');
+              }}
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
+            >
+              Testimonials
             </a>
             <a
               href="#contact"
@@ -82,31 +105,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 e.preventDefault();
                 onNavigate('contact');
               }}
-              className="hover:text-white transition-colors"
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
               Contact
             </a>
-            <a
-              href={PERSONAL_INFO.canonicalResumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={trackResumeDownload}
-              className="inline-flex items-center gap-1 text-white hover:text-white/80 transition-colors font-semibold"
-            >
-              <FileDown className="w-3.5 h-3.5 text-[#60A5FA]" />
-              <span>Resume</span>
-              <ArrowUpRight className="w-3 h-3 text-white/50" />
-            </a>
           </div>
+
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+        {/* Bottom Notice */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-[#64748B]">
           <p>
-            &copy; {new Date().getFullYear()} {PERSONAL_INFO.name}. All rights reserved.
+            &copy; {new Date().getFullYear()} Rajakumar Sivasubramanian. All rights reserved.
           </p>
-          <p className="text-right">
-            Evidence-led professional portfolio for regional opportunities in the UAE.
+          <p className="text-center sm:text-right">
+            Enterprise case studies anonymized for confidentiality &middot; Dubai, UAE
           </p>
         </div>
       </div>

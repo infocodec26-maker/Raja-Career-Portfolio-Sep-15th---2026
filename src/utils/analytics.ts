@@ -42,6 +42,10 @@ export function trackPhoneClick(): void {
   trackEvent('phone_click');
 }
 
+export function trackWhatsAppClick(): void {
+  trackEvent('whatsapp_click');
+}
+
 export function trackCalendlyClick(): void {
   trackEvent('calendly_click');
 }

@@ -3,31 +3,32 @@ import { PERSONAL_INFO } from '../data/portfolioData';
 import {
   Mail,
   Phone,
-  Calendar,
-  FileDown,
+  MessageSquare,
   ExternalLink,
   Send,
   CheckCircle2,
   AlertCircle,
   MapPin,
+  Linkedin,
+  ArrowUpRight,
+  FileDown,
 } from 'lucide-react';
 import {
   trackEmailClick,
   trackPhoneClick,
+  trackWhatsAppClick,
   trackLinkedInClick,
-  trackCalendlyClick,
   trackResumeDownload,
   trackContactFormStart,
   trackContactFormSubmit,
 } from '../utils/analytics';
-import { FadeInSection } from './FadeInSection';
+import { FadeInSection, StaggerItem } from './FadeInSection';
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     workEmail: '',
     company: '',
-    roleOrOpportunity: '',
     message: '',
   });
 
@@ -62,7 +63,6 @@ export const ContactSection: React.FC = () => {
           name: formData.name,
           email: formData.workEmail,
           company: formData.company,
-          role_or_opportunity: formData.roleOrOpportunity,
           message: formData.message,
         }),
       });
@@ -74,17 +74,16 @@ export const ContactSection: React.FC = () => {
           name: '',
           workEmail: '',
           company: '',
-          roleOrOpportunity: '',
           message: '',
         });
       } else {
         const resData = await response.json().catch(() => ({}));
         setErrorMessage(
-          resData?.error || 'Unable to deliver message at this time. Please use direct email.'
+          resData?.error || 'Unable to deliver message right now. Please email directly.'
         );
       }
     } catch {
-      setErrorMessage('Network connection error. Please email raj.siva0710@gmail.com directly.');
+      setErrorMessage('Network error. Please reach out via WhatsApp or email directly.');
     } finally {
       setIsSubmitting(false);
     }
@@ -93,85 +92,83 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="py-16 sm:py-24 bg-white"
+      className="pt-8 pb-14 sm:pt-10 sm:pb-16 bg-slate-50 dark:bg-[#161822] border-t border-slate-200 dark:border-white/10 relative overflow-hidden"
       aria-labelledby="contact-heading"
     >
-      <FadeInSection className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FadeInSection stagger className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Header */}
-        <div className="max-w-3xl mb-12 text-left">
-          <span className="text-xs uppercase tracking-wider font-semibold text-[#315C8C] block mb-2">
-            Direct Dialogue
-          </span>
+        <StaggerItem className="max-w-3xl mb-7 text-left">
+          <div className="inline-flex items-center px-3 py-1 rounded-md bg-red-50 dark:bg-[#FF2E2E]/10 border border-red-200 dark:border-[#FF2E2E]/30 text-xs font-semibold text-red-600 dark:text-[#FF4A4A] uppercase tracking-wider mb-2">
+            <span>Direct Dialogue</span>
+          </div>
           <h2
             id="contact-heading"
-            className="font-heading text-2xl sm:text-3xl md:text-4xl font-semibold text-[#172033] tracking-tight"
+            className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-[#FAF9F6] tracking-tight"
           >
             Let Us Connect
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-[#172033] leading-relaxed">
-            I am currently focused on Key Account Management, Customer Success, Strategic Account Management and Client Partnership opportunities in Dubai and the UAE.
+          <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-[#CBD5E1] leading-relaxed">
+            I am exploring Strategic Account Management, Customer Success and GTM opportunities across Dubai, the UAE and regional markets.
           </p>
-          <p className="mt-2 text-sm sm:text-base text-[#64748B] leading-relaxed">
-            If my experience is relevant to your team, I will be happy to discuss the role and how I can contribute.
-          </p>
-        </div>
+        </StaggerItem>
 
-        {/* Two Columns: Contact Channels & Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+        {/* Two Columns: Clean Direct Channels + Compact Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           
-          {/* Column 1: Direct Contact Details & Scheduling (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Column 1: Direct Channels List */}
+          <StaggerItem className="lg:col-span-5 space-y-3.5">
             
-            {/* Location & Availability Card */}
-            <div className="p-5 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0]">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#172033] mb-1">
-                <MapPin className="w-4 h-4 text-[#315C8C]" />
-                <span>Location: {PERSONAL_INFO.professionalLocation}</span>
+            <div className="p-5 rounded-xl bg-[#F1F5F9] dark:bg-[#1E2230] border border-[#CBD5E1] dark:border-white/10 shadow-xs space-y-3">
+              
+              {/* Location */}
+              <div className="flex items-center gap-2.5 text-xs text-slate-700 dark:text-[#FAF9F6] pb-2.5 border-b border-slate-200/80 dark:border-white/10">
+                <MapPin className="w-4 h-4 text-red-600 dark:text-[#FF2E2E] shrink-0" />
+                <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">{PERSONAL_INFO.professionalLocation}</span>
               </div>
-              <p className="text-xs text-[#64748B]">
-                Immediate availability for interviews and regional exploratory discussions.
-              </p>
-            </div>
 
-            {/* Contact Details List */}
-            <div className="space-y-3">
               {/* Email */}
               <a
                 id="contact-email-link"
                 href={`mailto:${PERSONAL_INFO.email}`}
-                onClick={trackEmailClick}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-all group"
+                onClick={() => trackEmailClick()}
+                className="flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-[#FAF9F6] hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors pb-2.5 border-b border-slate-200/80 dark:border-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#315C8C] group-hover:border-[#315C8C]/40">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold text-[#64748B] block">Email</span>
-                    <span className="text-xs sm:text-sm font-semibold text-[#172033]">{PERSONAL_INFO.email}</span>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <Mail className="w-4 h-4 text-red-600 dark:text-[#FF2E2E] shrink-0" />
+                  <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">{PERSONAL_INFO.email}</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#172033]" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
 
-              {/* Phone */}
+              {/* WhatsApp (+971...) */}
+              <a
+                id="contact-whatsapp-link"
+                href={PERSONAL_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick()}
+                className="flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-[#FAF9F6] hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors pb-2.5 border-b border-slate-200/80 dark:border-white/10"
+              >
+                <div className="flex items-center gap-2.5">
+                  <MessageSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">{PERSONAL_INFO.phone} (WhatsApp)</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              </a>
+
+              {/* Mobile */}
               <a
                 id="contact-phone-link"
-                href={`tel:${PERSONAL_INFO.phone.replace(/\s+/g, '')}`}
-                onClick={trackPhoneClick}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-all group"
+                href={`tel:${PERSONAL_INFO.phone}`}
+                onClick={() => trackPhoneClick()}
+                className="flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-[#FAF9F6] hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors pb-2.5 border-b border-slate-200/80 dark:border-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#315C8C] group-hover:border-[#315C8C]/40">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold text-[#64748B] block">Phone</span>
-                    <span className="text-xs sm:text-sm font-semibold text-[#172033]">{PERSONAL_INFO.phone}</span>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 text-red-600 dark:text-[#FF2E2E] shrink-0" />
+                  <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">{PERSONAL_INFO.phone}</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#172033]" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
 
               {/* LinkedIn */}
@@ -180,219 +177,151 @@ export const ContactSection: React.FC = () => {
                 href={PERSONAL_INFO.linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={trackLinkedInClick}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-all group"
+                onClick={() => trackLinkedInClick()}
+                className="flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-[#FAF9F6] hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors pb-2.5 border-b border-slate-200/80 dark:border-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#315C8C] group-hover:border-[#315C8C]/40">
-                    <ExternalLink className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold text-[#64748B] block">LinkedIn</span>
-                    <span className="text-xs sm:text-sm font-semibold text-[#172033]">linkedin.com/in/rajsiva</span>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <Linkedin className="w-4 h-4 text-[#0A66C2] shrink-0" />
+                  <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">LinkedIn</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#172033]" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
 
-              {/* Download Resume */}
+              {/* Download Resume (Kept right after LinkedIn) */}
               <a
                 id="contact-resume-link"
                 href={PERSONAL_INFO.canonicalResumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={trackResumeDownload}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-all group"
+                onClick={() => trackResumeDownload()}
+                className="flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-[#FAF9F6] hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors pt-0.5"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white border border-[#E2E8F0] flex items-center justify-center text-[#315C8C] group-hover:border-[#315C8C]/40">
-                    <FileDown className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold text-[#64748B] block">Curriculum Vitae</span>
-                    <span className="text-xs sm:text-sm font-semibold text-[#172033]">Download Resume (PDF)</span>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <FileDown className="w-4 h-4 text-red-600 dark:text-[#FF2E2E] shrink-0" />
+                  <span className="font-semibold text-slate-800 dark:text-[#FAF9F6]">Download Resume</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#172033]" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
               </a>
 
-              {/* Calendly */}
-              <a
-                id="contact-calendly-link"
-                href={PERSONAL_INFO.calendlyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={trackCalendlyClick}
-                className="flex items-center justify-between p-4 rounded-xl bg-[#172033] text-white hover:bg-[#22314d] transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white">
-                    <Calendar className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-medium text-white/70 block">Direct Calendar</span>
-                    <span className="text-xs sm:text-sm font-semibold text-white">Schedule a 30-Minute Conversation</span>
-                  </div>
-                </div>
-                <ExternalLink className="w-3.5 h-3.5 text-white/70 group-hover:text-white" />
-              </a>
             </div>
-          </div>
 
-          {/* Column 2: Direct Contact Form (7 cols) */}
-          <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0]">
-              <h3 className="font-heading text-lg sm:text-xl font-bold text-[#172033] mb-2">
-                Send a Direct Message
+          </StaggerItem>
+
+          {/* Column 2: Compact Message Form (7 cols) */}
+          <StaggerItem className="lg:col-span-7">
+            <div className="metafic-card p-4 sm:p-5 rounded-xl bg-[#F1F5F9] dark:bg-[#1E2230] border border-[#CBD5E1] dark:border-white/10 shadow-xs">
+              
+              <h3 className="font-heading text-sm sm:text-base font-bold text-slate-900 dark:text-[#FAF9F6] mb-1">
+                Send Direct Message
               </h3>
-              <p className="text-xs sm:text-sm text-[#64748B] mb-6">
-                All messages are delivered straight to my primary inbox.
+              <p className="text-xs text-slate-500 dark:text-[#94A3B8] mb-3">
+                Reach out directly for discussions, interview scheduling or role introductions.
               </p>
 
               {submittedSuccess ? (
-                <div
-                  id="form-success-banner"
-                  className="p-6 rounded-lg bg-white border border-emerald-200 text-center animate-in fade-in duration-200"
-                >
-                  <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-3" />
-                  <h4 className="font-heading text-lg font-bold text-[#172033] mb-1">
-                    Message Received
+                <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 text-center space-y-1.5">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto" />
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-[#FAF9F6]">
+                    Message Sent Successfully
                   </h4>
-                  <p className="text-xs sm:text-sm text-[#64748B] max-w-md mx-auto mb-5">
-                    Thank you for reaching out. I have received your message and will respond promptly.
+                  <p className="text-xs text-slate-600 dark:text-[#CBD5E1]">
+                    Thank you. Rajakumar will respond promptly.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setSubmittedSuccess(false)}
-                    className="text-xs font-semibold px-4 py-2 rounded-md border border-[#E2E8F0] bg-white hover:bg-[#F7F8FA] text-[#172033]"
-                  >
-                    Send Another Note
-                  </button>
                 </div>
               ) : (
-                <form id="contact-form" onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3 text-left">
                   {errorMessage && (
-                    <div className="p-3 rounded-md bg-rose-50 border border-rose-200 flex items-center gap-2 text-xs text-rose-700">
+                    <div className="p-2.5 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-300 dark:border-red-800 text-xs text-red-700 dark:text-red-300 flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{errorMessage}</span>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Name */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="field-name" className="block text-xs font-semibold text-[#172033] mb-1.5">
-                        Your Name <span className="text-rose-500">*</span>
+                      <label htmlFor="contact-name" className="block text-[11px] font-bold text-slate-700 dark:text-[#FAF9F6] uppercase tracking-wider mb-1">
+                        Your Name *
                       </label>
                       <input
-                        id="field-name"
-                        type="text"
+                        id="contact-name"
                         name="name"
+                        type="text"
                         required
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="First and last name"
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-sm text-[#172033] placeholder:text-[#94A3B8] focus:outline-hidden focus:ring-2 focus:ring-[#315C8C]"
+                        placeholder="e.g. Sarah Jenkins"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 dark:bg-[#161822] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-[#FAF9F6] focus:outline-hidden focus:border-red-500"
                       />
                     </div>
 
-                    {/* Work Email */}
                     <div>
-                      <label htmlFor="field-email" className="block text-xs font-semibold text-[#172033] mb-1.5">
-                        Work Email <span className="text-rose-500">*</span>
+                      <label htmlFor="contact-email" className="block text-[11px] font-bold text-slate-700 dark:text-[#FAF9F6] uppercase tracking-wider mb-1">
+                        Work Email *
                       </label>
                       <input
-                        id="field-email"
-                        type="email"
+                        id="contact-email"
                         name="workEmail"
+                        type="email"
                         required
                         value={formData.workEmail}
                         onChange={handleInputChange}
-                        placeholder="name@company.com"
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-sm text-[#172033] placeholder:text-[#94A3B8] focus:outline-hidden focus:ring-2 focus:ring-[#315C8C]"
+                        placeholder="sarah@company.com"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 dark:bg-[#161822] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-[#FAF9F6] focus:outline-hidden focus:border-red-500"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Company */}
-                    <div>
-                      <label htmlFor="field-company" className="block text-xs font-semibold text-[#172033] mb-1.5">
-                        Company or Organization
-                      </label>
-                      <input
-                        id="field-company"
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        placeholder="Company name"
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-sm text-[#172033] placeholder:text-[#94A3B8] focus:outline-hidden focus:ring-2 focus:ring-[#315C8C]"
-                      />
-                    </div>
-
-                    {/* Role or Opportunity */}
-                    <div>
-                      <label htmlFor="field-role" className="block text-xs font-semibold text-[#172033] mb-1.5">
-                        Role or Opportunity
-                      </label>
-                      <input
-                        id="field-role"
-                        type="text"
-                        name="roleOrOpportunity"
-                        value={formData.roleOrOpportunity}
-                        onChange={handleInputChange}
-                        placeholder="e.g. Key Account Manager"
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-sm text-[#172033] placeholder:text-[#94A3B8] focus:outline-hidden focus:ring-2 focus:ring-[#315C8C]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Message */}
                   <div>
-                    <label htmlFor="field-message" className="block text-xs font-semibold text-[#172033] mb-1.5">
-                      Message <span className="text-rose-500">*</span>
+                    <label htmlFor="contact-company" className="block text-[11px] font-bold text-slate-700 dark:text-[#FAF9F6] uppercase tracking-wider mb-1">
+                      Organization / Company
+                    </label>
+                    <input
+                      id="contact-company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      placeholder="Company name or division"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 dark:bg-[#161822] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-[#FAF9F6] focus:outline-hidden focus:border-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="contact-message" className="block text-[11px] font-bold text-slate-700 dark:text-[#FAF9F6] uppercase tracking-wider mb-1">
+                      Message / Topic *
                     </label>
                     <textarea
-                      id="field-message"
+                      id="contact-message"
                       name="message"
-                      rows={4}
+                      rows={3}
                       required
                       value={formData.message}
                       onChange={handleInputChange}
-                      placeholder="Brief details about the role, account challenges or team context..."
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-sm text-[#172033] placeholder:text-[#94A3B8] focus:outline-hidden focus:ring-2 focus:ring-[#315C8C]"
-                    ></textarea>
+                      placeholder="Brief note on opportunity, team requirements, or discussion topic..."
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 dark:bg-[#161822] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-[#FAF9F6] focus:outline-hidden focus:border-red-500 resize-none"
+                    />
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-2 flex items-center justify-between">
-                    <button
-                      id="btn-submit-contact"
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#172033] text-white hover:bg-[#22314d] disabled:opacity-60 transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#315C8C]"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
-                          <span>Delivering...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          <span>Send Message</span>
-                        </>
-                      )}
-                    </button>
-                    <span className="text-[11px] text-[#64748B]">
-                      Powered by direct secure transport
-                    </span>
-                  </div>
+                  <button
+                    id="contact-submit-btn"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto px-5 py-2 rounded-lg bg-red-600 hover:bg-red-700 dark:bg-[#FF2E2E] dark:hover:bg-[#FF4A4A] text-white text-xs font-bold inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <span>Sending...</span>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
                 </form>
               )}
+
             </div>
-          </div>
+          </StaggerItem>
 
         </div>
       </FadeInSection>

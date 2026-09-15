@@ -1,101 +1,85 @@
 import React from 'react';
 import { TECH_CATEGORIES, INDUSTRY_EXPOSURE } from '../data/portfolioData';
-import { Layers, Building } from 'lucide-react';
-import { FadeInSection } from './FadeInSection';
+import { FadeInSection, StaggerItem } from './FadeInSection';
 
 export const TechAndIndustry: React.FC = () => {
   return (
     <section
-      id="capabilities"
-      className="py-14 sm:py-20 border-b border-[#E2E8F0]/70"
-      aria-labelledby="capabilities-heading"
+      id="tech-industry"
+      className="py-12 sm:py-16 bg-white dark:bg-[#161822] border-b border-slate-200 dark:border-white/10 relative overflow-hidden"
+      aria-labelledby="tech-industry-heading"
     >
-      <FadeInSection className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FadeInSection stagger className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 text-left">
-          <span className="text-xs uppercase tracking-wider font-semibold text-[#315C8C] block mb-2">
-            Breadth and Adaptability
-          </span>
+        <StaggerItem className="max-w-3xl mb-8 sm:mb-10 text-left">
+          <div className="inline-flex items-center px-3 py-1 rounded-md bg-red-50 dark:bg-[#FF2E2E]/10 border border-red-200 dark:border-[#FF2E2E]/30 text-xs font-semibold text-red-600 dark:text-[#FF4A4A] uppercase tracking-wider mb-2.5">
+            <span>Domain Scope</span>
+          </div>
           <h2
-            id="capabilities-heading"
-            className="font-heading text-2xl sm:text-3xl md:text-4xl font-semibold text-[#172033] tracking-tight"
+            id="tech-industry-heading"
+            className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-[#FAF9F6] tracking-tight"
           >
-            Technology and Industry Experience
+            Technology & Industry Expertise
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-[#172033] leading-relaxed">
-            I have worked across different products, services and industries. My strength is not being limited to one solution category. I can learn the product, understand the customer problem and build the commercial conversation around it.
+          <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-[#CBD5E1] leading-relaxed">
+            Consultative commercial capability across core technology categories and key enterprise industry verticals.
           </p>
-          <p className="mt-2 text-xs text-[#64748B] italic">
-            Note: Industry exposure is represented at a consultative commercial and account level based on authentic project engagements.
-          </p>
-        </div>
+        </StaggerItem>
 
-        {/* Two-Column Grid: Technology Categories & Industry Exposure */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Side-by-Side Parallel View: Staggered entrance */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
           
           {/* Column 1: Technology Categories */}
-          <div className="p-6 sm:p-7 rounded-xl bg-white border border-[#E2E8F0] shadow-2xs">
-            <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-[#E2E8F0]">
-              <div className="w-8 h-8 rounded-md bg-[#F7F8FA] border border-[#E2E8F0] flex items-center justify-center text-[#315C8C]">
-                <Layers className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-[#172033]">
+          <StaggerItem className="metafic-card p-5 sm:p-6 rounded-xl bg-[#F1F5F9] dark:bg-[#1E2230] border border-[#CBD5E1] dark:border-white/10 flex flex-col justify-between shadow-xs">
+            <div>
+              <div className="pb-3 mb-4 border-b border-slate-200 dark:border-white/10">
+                <h3 className="font-heading text-base sm:text-lg font-bold text-slate-900 dark:text-[#FAF9F6]">
                   Technology Categories
                 </h3>
-                <span className="text-xs text-[#64748B]">Solutions, architecture models and delivery modes</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2.5">
+                {TECH_CATEGORIES.map((item, idx) => (
+                  <div
+                    key={idx}
+                    id={`tech-cat-${idx}`}
+                    className="h-11 sm:h-12 px-3.5 sm:px-4 rounded-lg bg-white dark:bg-[#272B3D] border border-slate-200/80 dark:border-white/10 hover:border-red-500/50 dark:hover:border-[#FF2E2E]/40 transition-colors flex items-center group cursor-default shadow-2xs"
+                  >
+                    <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-[#FAF9F6] group-hover:text-red-600 dark:group-hover:text-[#FF4A4A] transition-colors">
+                      {item.name}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
+          </StaggerItem>
 
-            <div className="space-y-3.5">
-              {TECH_CATEGORIES.map((item, idx) => (
-                <div
-                  key={idx}
-                  id={`tech-cat-${idx}`}
-                  className="p-3 rounded-lg bg-[#F7F8FA] border border-[#E2E8F0]/80 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4"
-                >
-                  <span className="text-xs sm:text-sm font-semibold text-[#172033] shrink-0">
-                    {item.name}
-                  </span>
-                  <span className="text-xs text-[#64748B] sm:text-right">
-                    {item.desc}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 2: Industry Exposure */}
-          <div className="p-6 sm:p-7 rounded-xl bg-white border border-[#E2E8F0] shadow-2xs">
-            <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-[#E2E8F0]">
-              <div className="w-8 h-8 rounded-md bg-[#F7F8FA] border border-[#E2E8F0] flex items-center justify-center text-[#315C8C]">
-                <Building className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-[#172033]">
-                  Industry Exposure
+          {/* Column 2: Industry Verticals */}
+          <StaggerItem className="metafic-card p-5 sm:p-6 rounded-xl bg-[#F1F5F9] dark:bg-[#1E2230] border border-[#CBD5E1] dark:border-white/10 flex flex-col justify-between shadow-xs">
+            <div>
+              <div className="pb-3 mb-4 border-b border-slate-200 dark:border-white/10">
+                <h3 className="font-heading text-base sm:text-lg font-bold text-slate-900 dark:text-[#FAF9F6]">
+                  Industry Verticals
                 </h3>
-                <span className="text-xs text-[#64748B]">Commercial context and customer environments</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {INDUSTRY_EXPOSURE.map((item, idx) => (
+                  <div
+                    key={idx}
+                    id={`industry-exp-${idx}`}
+                    className={`h-11 sm:h-12 px-3.5 sm:px-4 rounded-lg bg-white dark:bg-[#272B3D] border border-slate-200/80 dark:border-white/10 hover:border-red-500/50 dark:hover:border-[#FF2E2E]/40 transition-colors flex items-center group cursor-default shadow-2xs ${
+                      idx === INDUSTRY_EXPOSURE.length - 1 ? 'sm:col-span-2' : ''
+                    }`}
+                  >
+                    <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-[#FAF9F6] group-hover:text-red-600 dark:group-hover:text-[#FF4A4A] transition-colors">
+                      {item.name}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <div className="space-y-3.5">
-              {INDUSTRY_EXPOSURE.map((item, idx) => (
-                <div
-                  key={idx}
-                  id={`industry-exp-${idx}`}
-                  className="p-3 rounded-lg bg-[#F7F8FA] border border-[#E2E8F0]/80 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4"
-                >
-                  <span className="text-xs sm:text-sm font-semibold text-[#172033] shrink-0">
-                    {item.name}
-                  </span>
-                  <span className="text-xs text-[#64748B] sm:text-right">
-                    {item.context}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          </StaggerItem>
 
         </div>
       </FadeInSection>

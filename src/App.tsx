@@ -6,7 +6,6 @@ import { HowIAddValue } from './components/HowIAddValue';
 import { ProfessionalExperience } from './components/ProfessionalExperience';
 import { TechAndIndustry } from './components/TechAndIndustry';
 import { CommercialStories } from './components/CommercialStories';
-import { AdditionalExperience } from './components/AdditionalExperience';
 import { ToolsSystems } from './components/ToolsSystems';
 import { FeedbackSection } from './components/FeedbackSection';
 import { ContactSection } from './components/ContactSection';
@@ -19,14 +18,15 @@ import {
 
 const SECTION_NAV_MAP: Record<string, string> = {
   home: 'home',
-  impact: 'home',
-  strengths: 'home',
-  experience: 'experience',
+  metrics: 'metrics',
+  impact: 'metrics',
   capabilities: 'capabilities',
+  strengths: 'capabilities',
+  'tech-industry': 'capabilities',
+  experience: 'experience',
   'case-studies': 'case-studies',
-  additional: 'case-studies',
   tools: 'case-studies',
-  feedback: 'case-studies',
+  feedback: 'feedback',
   contact: 'contact',
 };
 
@@ -38,7 +38,8 @@ export default function App() {
     const el = document.getElementById(sectionId);
     if (!el) return;
 
-    const navOffset = 76; // Sticky header height
+    // Compensate for sticky navbar so the section header aligns cleanly
+    const navOffset = 70;
     const elementPosition = el.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - navOffset;
 
@@ -67,7 +68,7 @@ export default function App() {
       setTimeout(() => {
         const el = document.getElementById(targetId);
         if (el) {
-          const navOffset = 76;
+          const navOffset = 70;
           const elementPosition = el.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - navOffset;
           window.scrollTo({
@@ -89,12 +90,11 @@ export default function App() {
   useEffect(() => {
     const sectionIds = [
       'home',
-      'impact',
-      'strengths',
-      'experience',
+      'metrics',
       'capabilities',
+      'experience',
+      'tech-industry',
       'case-studies',
-      'additional',
       'tools',
       'feedback',
       'contact',
@@ -106,7 +106,7 @@ export default function App() {
       const scrollY = window.scrollY;
 
       // When near top
-      if (scrollY < 120) {
+      if (scrollY < 100) {
         if (lastActiveId !== 'home') {
           lastActiveId = 'home';
           setActiveSection('home');
@@ -118,7 +118,7 @@ export default function App() {
       }
 
       // Check current section
-      const headerOffset = 150;
+      const headerOffset = 120;
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const id = sectionIds[i];
         const el = document.getElementById(id);
@@ -142,40 +142,37 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#172033]">
-      {/* Sticky Navigation */}
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#050508] text-slate-900 dark:text-[#FAF9F6] selection:bg-red-600 dark:selection:bg-[#FF2E2E] selection:text-white transition-colors duration-200">
+      {/* Sticky Navigation with Dark/Light Toggle */}
       <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
 
       {/* Main Single-Page Content */}
       <main className="flex-grow">
-        {/* 1. Hero */}
+        {/* 1. Hero with uncropped full head portrait */}
         <Hero onNavigate={scrollToSection} />
 
-        {/* 2. Commercial Snapshot */}
+        {/* 2. Commercial Snapshot (Metrics) */}
         <CommercialSnapshot />
 
-        {/* 3. How I Add Value */}
+        {/* 3. How I Add Value to an Enterprise Account */}
         <HowIAddValue />
 
-        {/* 4. Professional Experience */}
+        {/* 4. Professional Experience (Auto-expand on hover, auto-collapse) */}
         <ProfessionalExperience />
 
-        {/* 5. Technology and Industry Experience */}
+        {/* 5. Technology and Industry Expertise (Side-by-side parallel view) */}
         <TechAndIndustry />
 
-        {/* 6. Selected Commercial Stories */}
+        {/* 6. Selected Commercial Stories (Consolidated 8 stories, auto-expand on hover) */}
         <CommercialStories />
 
-        {/* 7. Additional Experience */}
-        <AdditionalExperience />
-
-        {/* 8. Tools and Commercial Systems */}
+        {/* 7. Tools, Commercial Systems & Disciplines (Mixpanel, compact cards) */}
         <ToolsSystems />
 
-        {/* 9. Client and Colleague Feedback */}
+        {/* 8. Testimonials (Direct recommendations without stars) */}
         <FeedbackSection />
 
-        {/* 10. Contact */}
+        {/* 9. Let Us Connect (Short direct links, WhatsApp button, compact form) */}
         <ContactSection />
       </main>
 

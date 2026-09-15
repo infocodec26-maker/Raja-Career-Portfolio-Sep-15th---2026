@@ -1,49 +1,52 @@
 import React from 'react';
 import { METRIC_CARDS } from '../data/portfolioData';
-import { FadeInSection } from './FadeInSection';
+import { FadeInSection, StaggerItem } from './FadeInSection';
+import { motion } from 'motion/react';
 
 export const CommercialSnapshot: React.FC = () => {
   return (
     <section
-      id="impact"
-      className="py-14 sm:py-18 bg-white border-b border-[#E2E8F0]"
-      aria-labelledby="impact-heading"
+      id="metrics"
+      className="py-12 sm:py-16 bg-slate-50 dark:bg-[#161822] border-b border-slate-200 dark:border-white/10 relative overflow-hidden"
+      aria-labelledby="metrics-heading"
     >
-      <FadeInSection className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FadeInSection stagger className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
-        <div className="mb-10 text-left">
-          <span className="text-xs uppercase tracking-wider font-semibold text-[#315C8C] block mb-2">
-            Commercial Snapshot
-          </span>
+        <StaggerItem className="mb-8 sm:mb-10 text-left max-w-3xl">
+          <div className="inline-flex items-center px-3 py-1 rounded-md bg-red-50 dark:bg-[#FF2E2E]/10 border border-red-200 dark:border-[#FF2E2E]/30 text-xs font-semibold text-red-600 dark:text-[#FF4A4A] uppercase tracking-wider mb-2.5">
+            <span>Commercial Impact</span>
+          </div>
           <h2
-            id="impact-heading"
-            className="font-heading text-2xl sm:text-3xl font-semibold text-[#172033] tracking-tight"
+            id="metrics-heading"
+            className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-[#FAF9F6] tracking-tight"
           >
-            Verified Commercial and Account Foundation
+            Commercial Impact & Foundation
           </h2>
-          <p className="mt-2 text-sm text-[#64748B] max-w-2xl">
-            A consistent track record across technology services, SaaS product adoption and multi-stakeholder enterprise partnerships.
+          <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-[#CBD5E1] leading-relaxed">
+            Measurable commercial impact across technology services, SaaS product adoption, and multi-stakeholder enterprise accounts.
           </p>
-        </div>
+        </StaggerItem>
 
-        {/* 4 Metric Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 4 Metric Bento Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {METRIC_CARDS.map((card, idx) => (
-            <div
+            <StaggerItem
               key={idx}
               id={`metric-card-${idx}`}
-              className="p-5 sm:p-6 rounded-xl bg-[#F7F8FA] border border-[#E2E8F0] shadow-2xs hover:border-[#CBD5E1] transition-colors"
+              className="metafic-card p-5 rounded-xl bg-white dark:bg-[#1E2230] border border-[#CBD5E1] dark:border-white/10 relative overflow-hidden group cursor-default shadow-xs"
             >
-              <div className="text-2xl sm:text-3xl font-bold text-[#172033] tracking-tight font-heading mb-1.5">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#FAF9F6] tracking-tight font-heading mb-1 group-hover:text-red-600 dark:group-hover:text-[#FF4A4A] transition-colors">
                 {card.metric}
               </div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-[#315C8C] mb-2.5">
+              
+              <div className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-[#FF4A4A] mb-1.5">
                 {card.label}
               </div>
-              <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+              
+              <p className="text-xs text-slate-600 dark:text-[#94A3B8] leading-relaxed">
                 {card.description}
               </p>
-            </div>
+            </StaggerItem>
           ))}
         </div>
       </FadeInSection>
