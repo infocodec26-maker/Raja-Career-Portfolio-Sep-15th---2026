@@ -1,0 +1,186 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
+import { CommercialSnapshot } from './components/CommercialSnapshot';
+import { HowIAddValue } from './components/HowIAddValue';
+import { ProfessionalExperience } from './components/ProfessionalExperience';
+import { TechAndIndustry } from './components/TechAndIndustry';
+import { CommercialStories } from './components/CommercialStories';
+import { AdditionalExperience } from './components/AdditionalExperience';
+import { ToolsSystems } from './components/ToolsSystems';
+import { FeedbackSection } from './components/FeedbackSection';
+import { ContactSection } from './components/ContactSection';
+import { Footer } from './components/Footer';
+import {
+  trackEvent,
+  initScrollDepthTracking,
+  initSectionTracking,
+} from './utils/analytics';
+
+const SECTION_NAV_MAP: Record<string, string> = {
+  home: 'home',
+  impact: 'home',
+  strengths: 'home',
+  experience: 'experience',
+  capabilities: 'capabilities',
+  'case-studies': 'case-studies',
+  additional: 'case-studies',
+  tools: 'case-studies',
+  feedback: 'case-studies',
+  contact: 'contact',
+};
+
+export default function App() {
+  const [activeSection, setActiveSection] = useState<string>('home');
+
+  // Navigation scroll with sticky header height compensation
+  const scrollToSection = useCallback((sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+
+    const navOffset = 76; // Sticky header height
+    const elementPosition = el.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+
+    const newHash = sectionId === 'home' ? '' : `#${sectionId}`;
+    const newUrl = window.location.pathname + newHash;
+    window.history.replaceState(null, '', newUrl);
+
+    setActiveSection(SECTION_NAV_MAP[sectionId] || sectionId);
+  }, []);
+
+  // On initial mount: direct hash loading and analytics initialization
+  useEffect(() => {
+    trackEvent('page_view', { page_title: document.title });
+
+    const cleanUpScroll = initScrollDepthTracking();
+    const cleanUpSections = initSectionTracking();
+
+    // Check direct hash URL on load
+    if (window.location.hash) {
+      const targetId = window.location.hash.replace('#', '');
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          const navOffset = 76;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+          setActiveSection(SECTION_NAV_MAP[targetId] || targetId);
+        }
+      }, 150);
+    }
+
+    return () => {
+      cleanUpScroll();
+      cleanUpSections();
+    };
+  }, []);
+
+  // Update hash and nav state dynamically during scroll via replaceState
+  useEffect(() => {
+    const sectionIds = [
+      'home',
+      'impact',
+      'strengths',
+      'experience',
+      'capabilities',
+      'case-studies',
+      'additional',
+      'tools',
+      'feedback',
+      'contact',
+    ];
+
+    let lastActiveId = '';
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+
+      // When near top
+      if (scrollY < 120) {
+        if (lastActiveId !== 'home') {
+          lastActiveId = 'home';
+          setActiveSection('home');
+          if (window.location.hash) {
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        }
+        return;
+      }
+
+      // Check current section
+      const headerOffset = 150;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop - headerOffset;
+          if (scrollY >= top) {
+            if (lastActiveId !== id) {
+              lastActiveId = id;
+              setActiveSection(SECTION_NAV_MAP[id] || id);
+              const hash = id === 'home' ? '' : `#${id}`;
+              window.history.replaceState(null, '', window.location.pathname + hash);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#172033]">
+      {/* Sticky Navigation */}
+      <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
+
+      {/* Main Single-Page Content */}
+      <main className="flex-grow">
+        {/* 1. Hero */}
+        <Hero onNavigate={scrollToSection} />
+
+        {/* 2. Commercial Snapshot */}
+        <CommercialSnapshot />
+
+        {/* 3. How I Add Value */}
+        <HowIAddValue />
+
+        {/* 4. Professional Experience */}
+        <ProfessionalExperience />
+
+        {/* 5. Technology and Industry Experience */}
+        <TechAndIndustry />
+
+        {/* 6. Selected Commercial Stories */}
+        <CommercialStories />
+
+        {/* 7. Additional Experience */}
+        <AdditionalExperience />
+
+        {/* 8. Tools and Commercial Systems */}
+        <ToolsSystems />
+
+        {/* 9. Client and Colleague Feedback */}
+        <FeedbackSection />
+
+        {/* 10. Contact */}
+        <ContactSection />
+      </main>
+
+      {/* Footer */}
+      <Footer onNavigate={scrollToSection} />
+    </div>
+  );
+}
