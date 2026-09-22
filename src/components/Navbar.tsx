@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
           <nav
             id="desktop-navigation"
             aria-label="Primary navigation"
-            className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-[#1E2230] border border-slate-200 dark:border-white/10"
+            className="hidden lg:flex items-center gap-0.5 xl:gap-1 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100/90 dark:bg-[#1E2230] border border-slate-200 dark:border-white/10 shrink-0"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
@@ -111,9 +111,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
                   href={item.href}
                   onClick={(e) => handleLinkClick(e, item.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`relative text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 ${
+                  className={`relative text-xs font-semibold px-2.5 xl:px-3 py-1.5 rounded-full whitespace-nowrap transition-all duration-200 ${
                     isActive
-                      ? 'text-white bg-red-600 dark:bg-[#FF2E2E]'
+                      ? 'text-white bg-red-600 dark:bg-[#FF2E2E] shadow-xs'
                       : 'text-slate-600 dark:text-[#CBD5E1] hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/10'
                   }`}
                 >
@@ -123,8 +123,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
             })}
           </nav>
 
-          {/* Right Action Area: Dual Theme Toggle (Light & Dark) with Refined Glow + Resume + CTA */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          {/* Right Action Area: Dual Theme Toggle + CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             
             {/* Refined dual toggle: Light (Sun) & Dark (Moon) */}
             <div

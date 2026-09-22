@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 {PERSONAL_INFO.name}
               </span>
               <span className="text-xs text-slate-500 dark:text-[#94A3B8]">
-                Key Account Management & Customer Success &middot; Dubai, UAE
+                Senior Account Manager | SaaS, Web & Mobile Solutions &middot; Dubai, UAE
               </span>
             </div>
           </div>
@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               }}
               className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
-              Metrics
+              Dashboard
             </a>
             <a
               href="#capabilities"
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               }}
               className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
-              Capabilities
+              Competencies
             </a>
             <a
               href="#experience"
@@ -77,7 +77,27 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               }}
               className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
             >
-              Experience
+              Lifecycle
+            </a>
+            <a
+              href="#tech-industry"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('tech-industry');
+              }}
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
+            >
+              Solutions
+            </a>
+            <a
+              href="#gtm-framework"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('gtm-framework');
+              }}
+              className="hover:text-red-600 dark:hover:text-[#FF4A4A] transition-colors"
+            >
+              GTM Execution
             </a>
             <a
               href="#case-studies"

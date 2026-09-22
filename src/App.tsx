@@ -5,6 +5,7 @@ import { CommercialSnapshot } from './components/CommercialSnapshot';
 import { HowIAddValue } from './components/HowIAddValue';
 import { ProfessionalExperience } from './components/ProfessionalExperience';
 import { TechAndIndustry } from './components/TechAndIndustry';
+import { GtmFramework } from './components/GtmFramework';
 import { CommercialStories } from './components/CommercialStories';
 import { ToolsSystems } from './components/ToolsSystems';
 import { FeedbackSection } from './components/FeedbackSection';
@@ -22,8 +23,9 @@ const SECTION_NAV_MAP: Record<string, string> = {
   impact: 'metrics',
   capabilities: 'capabilities',
   strengths: 'capabilities',
-  'tech-industry': 'capabilities',
   experience: 'experience',
+  'tech-industry': 'tech-industry',
+  'gtm-framework': 'gtm-framework',
   'case-studies': 'case-studies',
   tools: 'case-studies',
   feedback: 'feedback',
@@ -94,6 +96,7 @@ export default function App() {
       'capabilities',
       'experience',
       'tech-industry',
+      'gtm-framework',
       'case-studies',
       'tools',
       'feedback',
@@ -151,28 +154,31 @@ export default function App() {
         {/* 1. Hero with uncropped full head portrait */}
         <Hero onNavigate={scrollToSection} />
 
-        {/* 2. Commercial Snapshot (Metrics) */}
+        {/* 2. Commercial Snapshot (Metrics Dashboard) */}
         <CommercialSnapshot />
 
-        {/* 3. How I Add Value to an Enterprise Account */}
+        {/* 3. Core Competencies & Commercial Tools */}
         <HowIAddValue />
 
-        {/* 4. Professional Experience (Auto-expand on hover, auto-collapse) */}
+        {/* 4. Professional Experience Lifecycle */}
         <ProfessionalExperience />
 
-        {/* 5. Technology and Industry Expertise (Side-by-side parallel view) */}
+        {/* 5. Technology Solutions & SaaS Portfolio */}
         <TechAndIndustry />
 
-        {/* 6. Selected Commercial Stories (Consolidated 8 stories, auto-expand on hover) */}
+        {/* 6. Go-To-Market Execution & Enablement Frameworks */}
+        <GtmFramework onNavigate={scrollToSection} />
+
+        {/* 7. Selected Engagements (Case Studies with Thumbnails & Deep Dive Modal) */}
         <CommercialStories />
 
-        {/* 7. Tools, Commercial Systems & Disciplines (Mixpanel, compact cards) */}
+        {/* 8. Tools, Commercial Systems & Disciplines */}
         <ToolsSystems />
 
-        {/* 8. Testimonials (Direct recommendations without stars) */}
+        {/* 9. Testimonials */}
         <FeedbackSection />
 
-        {/* 9. Let Us Connect (Short direct links, WhatsApp button, compact form) */}
+        {/* 10. Let Us Connect (Lead Capture Hub) */}
         <ContactSection />
       </main>
 
